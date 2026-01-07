@@ -1,76 +1,41 @@
 import React from 'react';
 import ScheduleRow from './ScheduleRow';
+import { getStoredSchedule, type ProgramItem } from '../services/api';
 
 const Schedule: React.FC = () => {
+  const [schedule, setSchedule] = React.useState<ProgramItem[]>([]);
+
+  React.useEffect(() => {
+    // Initial load
+    setSchedule(getStoredSchedule());
+
+    // Listen for updates
+    const handleUpdate = () => setSchedule(getStoredSchedule());
+    window.addEventListener('scheduleUpdated', handleUpdate);
+    return () => window.removeEventListener('scheduleUpdated', handleUpdate);
+  }, []);
+
   return (
     <section id="schedule" className="panel" data-page="320">
       <h2 style={{ marginTop: 0, fontSize: '32px', color: 'var(--highlight)' }}>
         Rozkład programów
       </h2>
       <div className="split">
-        <div className="list" aria-label="Evening schedule">
-          <ScheduleRow
-            date="DZIŚ"
-            time="18:00"
-            title="Circuit Newsfeed"
-            rating="LIVE"
-            id="newsfeed"
-          />
-          <ScheduleRow
-            date="DZIŚ"
-            time="19:00"
-            title="Arcade Legends"
-            rating="CC"
-            id="arcade"
-          />
-          <ScheduleRow
-            date="DZIŚ"
-            time="20:00"
-            title="Retro Classics"
-            rating="HD"
-            id="retro"
-          />
-          <ScheduleRow
-            date="FRI"
-            time="21:30"
-            title="NeoNoir Premiere"
-            rating="NEW"
-            id="neonoir"
-          />
-          <ScheduleRow
-            date="TOM"
-            time="23:00"
-            title="Synthwave Sunrise"
-            rating="LIVE"
-            id="sun"
-          />
-        </div>
-        <div className="list" aria-label="Interactive codes">
-          <ScheduleRow time="14:30" title="Home & Headlines" rating="OK" id="100"  date="TBA"/>
-          <ScheduleRow date="TBA"
-            time="16:30"
-            title="Channel Schedules"
-            rating="OK"
-            id="320"
-          />
-          <ScheduleRow date="TBA"
-            time="19:30"
-            title="Off-Air Archives"
-            rating="NEW"
-            id="404"
-          />
-          <ScheduleRow date="TBA"
-            time="20:30"
-            title="Live Chat Access"
-            rating="HOT"
-            id="505"
-          />
-          <ScheduleRow date="TBA"
-            time="21:30"
-            title="Parental Locks"
-            rating="SEC"
-            id="900"
-          />
+        <div className="list" aria-label="Program schedule" style={{ width: '100%' }}>
+          {schedule.length === 0 ? (
+            <div style={{ padding: '20px' }}>Loading or no schedule available...</div>
+          ) : (
+            schedule.map((item) => (
+              <ScheduleRow
+                key={item.id}
+                date={item.date}
+                time={item.time}
+                title={item.title}
+                rating={item.extra === 'FALSE' ? 'REC' : 'LIVE'} 
+                id={item.id}
+              />
+            ))
+          )}
         </div>
       </div>
     </section>

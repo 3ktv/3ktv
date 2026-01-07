@@ -5,7 +5,6 @@ const Header: React.FC = () => {
     <header>
       <div className="ticker" role="presentation">
         <span>Live Now: "Synthwave Sunrise" — Cyber Beats Channel · Next: "Retro Classics" · Breaking: New season of NeoNoir premieres Friday · Interactive: Press ▶ to stream instantly</span>
-        <span>Live Now: "Synthwave Sunrise" — Cyber Beats Channel · Next: "Retro Classics" · Breaking: New season of NeoNoir premieres Friday · Interactive: Press ▶ to stream instantly</span>
       </div>
     </header>
   );
