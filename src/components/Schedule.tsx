@@ -6,11 +6,31 @@ const Schedule: React.FC = () => {
   const [schedule, setSchedule] = React.useState<ProgramItem[]>([]);
 
   React.useEffect(() => {
+    // Helper to get only upcoming/current items
+    const getFilteredSchedule = () => {
+      const allItems = getStoredSchedule();
+      const now = new Date();
+      // Allow items that started up to 2 hours ago (current)
+      const threshold = new Date(now.getTime() - 2 * 60 * 60 * 1000);
+
+      return allItems
+        .filter(item => {
+           const dateTimeStr = `${item.date}T${item.time}`;
+           const itemDate = new Date(dateTimeStr);
+           return !isNaN(itemDate.getTime()) && itemDate >= threshold;
+        })
+        .sort((a, b) => {
+           const dateA = new Date(`${a.date}T${a.time}`).getTime();
+           const dateB = new Date(`${b.date}T${b.time}`).getTime();
+           return dateA - dateB;
+        });
+    };
+
     // Initial load
-    setSchedule(getStoredSchedule());
+    setSchedule(getFilteredSchedule());
 
     // Listen for updates
-    const handleUpdate = () => setSchedule(getStoredSchedule());
+    const handleUpdate = () => setSchedule(getFilteredSchedule());
     window.addEventListener('scheduleUpdated', handleUpdate);
     return () => window.removeEventListener('scheduleUpdated', handleUpdate);
   }, []);
@@ -31,7 +51,7 @@ const Schedule: React.FC = () => {
                 date={item.date}
                 time={item.time}
                 title={item.title}
-                rating={item.extra === 'FALSE' ? 'REC' : 'LIVE'} 
+                rating={item.status || 'INFO'} 
                 id={item.id}
               />
             ))

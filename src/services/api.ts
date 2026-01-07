@@ -4,7 +4,7 @@ export interface ProgramItem {
   time: string;
   host: string;
   title: string;
-  extra: string;
+  status: string;
   description?: string;
   category?: string;
 }
@@ -61,7 +61,7 @@ export const fetchAndStoreSchedule = async (): Promise<ProgramItem[]> => {
       const rows = scheduleData.values.slice(1);
       const parsedData: ProgramItem[] = rows
         .map((row: string[], index: number) => {
-          // Row format: [Kiedy, Godzina, Kto, Program, Kolumna nr 1]
+          // Row format: [Kiedy, Godzina, Kto, Program, Status]
           //              0       1        2    3        4
           const title = row[3] || 'Untitled';
           // Generate a URL-friendly ID
@@ -79,12 +79,13 @@ export const fetchAndStoreSchedule = async (): Promise<ProgramItem[]> => {
             time: row[1] || '',
             host: row[2] || '',
             title: title,
-            extra: row[4] || 'FALSE',
+            status: row[5] || 'Unknown',
             description: descInfo?.desc || '',
             category: descInfo?.cat || ''
           };
         })
         .filter((item: ProgramItem) => item.title !== 'Untitled' || item.date !== '');
+
 
       localStorage.setItem('program_schedule', JSON.stringify(parsedData));
       // Dispatch a custom event so components can react immediately if needed

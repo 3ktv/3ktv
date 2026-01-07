@@ -55,7 +55,7 @@ const ProgramDetails: React.FC = () => {
           )}
         </div>
         <div style={{ marginTop: '24px' }}>
-          <p>Status: <span style={{ color: 'var(--accent)' }}>{program.extra === 'FALSE' ? 'RECORDED' : 'LIVE'}</span></p>
+          <p>Status: <span style={{ color: 'var(--accent)' }}>{program.status}</span></p>
           <p>ID: <span style={{ color: 'var(--muted-text)' }}>{program.id}</span></p>
         </div>
       </div>
