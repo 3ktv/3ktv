@@ -1,3 +1,9 @@
+export interface ReferralItem {
+  id: string;
+  name: string;
+  url: string;
+}
+
 export interface ProgramItem {
   id: string;
   date: string;
@@ -21,19 +27,53 @@ const SHEET_NAME = 'ROZKLAD';
 
 export const fetchAndStoreSchedule = async (): Promise<ProgramItem[]> => {
   try {
-    const [scheduleResponse, descriptionsResponse] = await Promise.all([
+    const [scheduleResponse, descriptionsResponse, referralsResponse] = await Promise.all([
       fetch(
         `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${SHEET_NAME}?key=${API_KEY}`
       ),
       fetch(
         `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/OPIS_PROGRAMOW?key=${API_KEY}`
+      ),
+      fetch(
+        `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/REFERALS?key=${API_KEY}`
       )
     ]);
 
-    const [scheduleData, descriptionsData] = await Promise.all([
+    const [scheduleData, descriptionsData, referralsData] = await Promise.all([
       scheduleResponse.json(),
-      descriptionsResponse.json()
+      descriptionsResponse.json(),
+      referralsResponse.json()
     ]);
+
+    // Parse Referrals
+    if (referralsData.values && referralsData.values.length > 0) {
+      // Assuming headers might or might not be there. Use heuristic.
+      // If first row looks like header "Instagram", "http"..., it might be data if it's not "Name", "Url".
+      // Let's assume no header or check. The user data showed "Instagram" at row 1.
+      // Wait, snippet showed: [ ["Instagram", "https://..."] ] which implies no explicit "Name", "Url" header row in the snippet I saw? 
+      // Actually the snippet output:
+      // values: [ [ "Instagram", "https..." ] ]
+      // Usually these sheets have headers. Let's assume if it is NOT a valid URL in col 1, it's a header?
+      // Or just assume row 0 is data if it looks like data.
+      // Actually, standard practice is Row 1 = Headers.
+      // Let's check the snippet again... Step 278. 
+      // It returned `values: [ ["Instagram", "https..."] ]`. 
+      // Wait, usually the Range is A1:Z1000. 
+      // If the sheet HAS headers, they should be in row 0. 
+      // `["Instagram", "https://..."]` looks like DATA.
+      // If there was a header "Platforma", "Link", it would be first.
+      // I'll be safe: Filter for valid URLs in column 1.
+
+      const referrals: ReferralItem[] = referralsData.values
+        .map((row: string[], index: number) => ({
+          id: `ref-${index}`,
+          name: row[0] || 'Unknown',
+          url: row[1] || ''
+        }))
+        .filter((item: ReferralItem) => item.url.startsWith('http'));
+
+      localStorage.setItem('program_referrals', JSON.stringify(referrals));
+    }
 
     // Parse descriptions/channels
     // OPIS_PROGRAMOW: [Nazwa, Kategoria, Opis]
@@ -105,6 +145,16 @@ export const getStoredChannels = (): ChannelItem[] => {
     return data ? JSON.parse(data) : [];
   } catch (e) {
     console.warn('Failed to parse channels from local storage', e);
+    return [];
+  }
+};
+
+export const getStoredReferrals = (): ReferralItem[] => {
+  try {
+    const data = localStorage.getItem('program_referrals');
+    return data ? JSON.parse(data) : [];
+  } catch (e) {
+    console.warn('Failed to parse referrals from local storage', e);
     return [];
   }
 };
