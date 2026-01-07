@@ -118,6 +118,22 @@ export const getStoredSchedule = (): ProgramItem[] => {
   }
 };
 
+export const fetchKickChannelData = async (slug: string): Promise<string | null> => {
+  try {
+    // Note: This request might fail due to CORS or Cloudflare protection if called directly from the browser.
+    // In a production environment, this should be proxied through a backend.
+    const response = await fetch(`https://kick.com/api/v1/channels/${slug}`);
+    if (!response.ok) {
+       throw new Error(`Kick API error: ${response.status}`);
+    }
+    const data = await response.json();
+    return data?.livestream?.session_title || null;
+  } catch (error) {
+    console.warn('Failed to fetch Kick channel data', error);
+    return null;
+  }
+};
+
 export const getProgramById = (id: string): ProgramItem | undefined => {
   const schedule = getStoredSchedule();
   return schedule.find((p) => p.id === id);

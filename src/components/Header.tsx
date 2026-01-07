@@ -1,10 +1,29 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { fetchKickChannelData } from '../services/api';
 
 const Header: React.FC = () => {
+  const defaultTicker = 'OFFLINE';
+  const [tickerText, setTickerText] = useState(defaultTicker);
+
+  useEffect(() => {
+    const fetchTitle = async () => {
+      const title = await fetchKickChannelData('kkktv');
+      if (title) {
+        setTickerText(`Live Now: "${title}" — 3KTV Channel · Interactive: Press ▶ to stream instantly`);
+      }
+    };
+
+    fetchTitle();
+    // Optional: Poll every few minutes
+    const interval = setInterval(fetchTitle, 60000); 
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <header>
       <div className="ticker" role="presentation">
-        <span>Live Now: "Synthwave Sunrise" — Cyber Beats Channel · Next: "Retro Classics" · Breaking: New season of NeoNoir premieres Friday · Interactive: Press ▶ to stream instantly</span>
+        <span>{tickerText}</span>
+        <span>{tickerText}</span>
       </div>
     </header>
   );
