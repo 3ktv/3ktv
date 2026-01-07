@@ -84,7 +84,7 @@ export const fetchAndStoreSchedule = async (): Promise<ProgramItem[]> => {
             category: descInfo?.cat || ''
           };
         })
-        .filter((item) => item.title !== 'Untitled' || item.date !== '');
+        .filter((item: ProgramItem) => item.title !== 'Untitled' || item.date !== '');
 
       localStorage.setItem('program_schedule', JSON.stringify(parsedData));
       // Dispatch a custom event so components can react immediately if needed
