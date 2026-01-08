@@ -1,9 +1,11 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import ScheduleRow from './ScheduleRow';
 import { getStoredSchedule, type ProgramItem } from '../services/api';
 
 const Schedule: React.FC = () => {
   const [schedule, setSchedule] = React.useState<ProgramItem[]>([]);
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     // Helper to get only upcoming/current items
@@ -53,6 +55,7 @@ const Schedule: React.FC = () => {
                 title={item.title}
                 rating={item.status || 'INFO'} 
                 id={item.id}
+                details={item.details}
               />
             ))
           )}
@@ -61,7 +64,7 @@ const Schedule: React.FC = () => {
       <div style={{ marginTop: '20px', display: 'flex', gap: '16px', justifyContent: 'center' }}>
         <button 
           className="btn" 
-          onClick={() => {}} 
+          onClick={() => navigate('/schedule')} 
           style={{ cursor: 'pointer' }}
         >
           Pokaż wszystkie

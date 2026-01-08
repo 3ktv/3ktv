@@ -5,6 +5,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/Home';
 import ProgramDetails from './pages/ProgramDetails';
+import AllSchedule from './pages/AllSchedule';
 import { fetchAndStoreSchedule } from './services/api';
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/schedule" element={<AllSchedule />} />
           <Route path="/program/:id" element={<ProgramDetails />} />
         </Routes>
         <Footer />

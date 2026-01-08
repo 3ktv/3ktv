@@ -7,14 +7,18 @@ interface ScheduleRowProps {
   title: string;
   rating: string;
   id?: string;
+  details?: string;
 }
 
-const ScheduleRow: React.FC<ScheduleRowProps> = ({ date, time, title, rating, id }) => {
+const ScheduleRow: React.FC<ScheduleRowProps> = ({ date, time, title, rating, id, details }) => {
   const content = (
     <>
       <span className="date">{date || 'TODAY'}</span>
       <span className="time">{time}</span>
-      <span className="title">{title}</span>
+      <span className="title">
+        {title}
+        {details && <span style={{ fontWeight: 'normal', marginLeft: '8px', fontSize: '0.9em', color: 'var(--text-secondary)' }}>({details})</span>}
+      </span>
       <span className="rating">{rating}</span>
     </>
   );

@@ -13,6 +13,7 @@ export interface ProgramItem {
   status: string;
   description?: string;
   category?: string;
+  details?: string;
 }
 
 export interface ChannelItem {
@@ -121,7 +122,8 @@ export const fetchAndStoreSchedule = async (): Promise<ProgramItem[]> => {
             title: title,
             status: row[5] || 'Unknown',
             description: descInfo?.desc || '',
-            category: descInfo?.cat || ''
+            category: descInfo?.cat || '',
+            details: row[4] || ''
           };
         })
         .filter((item: ProgramItem) => item.title !== 'Untitled' || item.date !== '');
