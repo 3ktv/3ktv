@@ -58,6 +58,24 @@ const Schedule: React.FC = () => {
           )}
         </div>
       </div>
+      <div style={{ marginTop: '20px', display: 'flex', gap: '16px', justifyContent: 'center' }}>
+        <button 
+          className="btn" 
+          onClick={() => {}} 
+          style={{ cursor: 'pointer' }}
+        >
+          Pokaż wszystkie
+        </button>
+        <a 
+          href="https://forms.gle/ibrm7UCnp2eum9AL6" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          className="btn"
+          style={{ textDecoration: 'none', display: 'inline-block' }}
+        >
+          Zapisz się
+        </a>
+      </div>
     </section>
   );
 };
