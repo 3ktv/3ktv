@@ -29,7 +29,7 @@ const Referrals: React.FC = () => {
   };
 
   return (
-    <section className="panel" style={{ padding: '20px' }}>
+    <section className="panel" style={{ padding: '20px' }} data-page="222">
       <h3 style={{ marginTop: 0, color: 'var(--highlight)', fontSize: '24px', marginBottom: '16px' }}>
         Polecane
       </h3>

@@ -2,7 +2,7 @@ import React from 'react';
 
 const Ideas: React.FC = () => {
   return (
-    <section className="panel" style={{ textAlign: 'center', padding: '40px 20px' }}>
+    <section className="panel" style={{ textAlign: 'center', padding: '40px 20px' }} data-page="777">
       <h2 style={{ fontSize: '28px', color: 'var(--highlight)', marginBottom: '16px' }}>
         Masz pomysł na rozwój 3KTV?
       </h2>
