@@ -4,6 +4,7 @@ import Schedule from '../components/Schedule';
 import Channels from '../components/Channels';
 
 import Referrals from '../components/Referrals';
+import Ideas from '../components/Ideas';
 
 const Home: React.FC = () => {
   return (
@@ -12,6 +13,7 @@ const Home: React.FC = () => {
       <Referrals />
       <Schedule />
       <Channels />
+      <Ideas />
     </main>
   );
 };
