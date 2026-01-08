@@ -4,10 +4,10 @@ const Ideas: React.FC = () => {
   return (
     <section className="panel" style={{ textAlign: 'center', padding: '40px 20px' }}>
       <h2 style={{ fontSize: '28px', color: 'var(--highlight)', marginBottom: '16px' }}>
-        Masz pomysł na program?
+        Masz pomysł na rozwój 3KTV?
       </h2>
       <p style={{ marginBottom: '24px', color: 'var(--text-secondary)' }}>
-        Chcesz zobaczyć coś konkretnego w 3KTV? A może sam chcesz dołączyć do ekipy?
+        Chcesz zrealizować jakiś pomysł w 3KTV? a może chcesz dołączyć do ekipy?
         Daj nam znać!
       </p>
       <a 
