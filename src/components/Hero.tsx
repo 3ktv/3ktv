@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import StatusCard from './StatusCard';
 import { getStoredSchedule, type ProgramItem } from '../services/api';
 
@@ -61,6 +62,9 @@ const Hero: React.FC = () => {
             <a className="btn secondary" href="https://discord.com/invite/XcMgRVpBs2" target="_blank" rel="noopener noreferrer">
               Discord
             </a>
+            <Link className="btn secondary" to="/crew">
+              Streaming Crew
+            </Link>
           </div>
         </div>
         <div className="status-grid">

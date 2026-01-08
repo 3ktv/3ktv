@@ -62,13 +62,13 @@ const Schedule: React.FC = () => {
         </div>
       </div>
       <div style={{ marginTop: '20px', display: 'flex', gap: '16px', justifyContent: 'center' }}>
-        <button 
+        <a 
           className="btn" 
           onClick={() => navigate('/schedule')} 
           style={{ cursor: 'pointer' }}
         >
           Pokaż wszystkie
-        </button>
+        </a>
         <a 
           href="https://forms.gle/ibrm7UCnp2eum9AL6" 
           target="_blank" 

@@ -6,6 +6,7 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 import ProgramDetails from './pages/ProgramDetails';
 import AllSchedule from './pages/AllSchedule';
+import StreamingCrew from './pages/StreamingCrew';
 import { fetchAndStoreSchedule } from './services/api';
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/schedule" element={<AllSchedule />} />
+          <Route path="/crew" element={<StreamingCrew />} />
           <Route path="/program/:id" element={<ProgramDetails />} />
         </Routes>
         <Footer />

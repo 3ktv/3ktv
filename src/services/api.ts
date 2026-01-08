@@ -22,13 +22,21 @@ export interface ChannelItem {
   description: string;
 }
 
+export interface CrewMember {
+  id: string;
+  name: string;
+  description: string;
+  image: string;
+  channel?: string;
+}
+
 const API_KEY = 'AIzaSyBZ5lMMi6aWprqFgBz551HqXkx6TGFV0RY';
 const SPREADSHEET_ID = '1595O9QndfjpbpElrowXTDvSqeF234FJ9p8ulZfWRLTY';
 const SHEET_NAME = 'ROZKLAD';
 
 export const fetchAndStoreSchedule = async (): Promise<ProgramItem[]> => {
   try {
-    const [scheduleResponse, descriptionsResponse, referralsResponse] = await Promise.all([
+    const [scheduleResponse, descriptionsResponse, referralsResponse, crewResponse] = await Promise.all([
       fetch(
         `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${SHEET_NAME}?key=${API_KEY}`
       ),
@@ -37,13 +45,17 @@ export const fetchAndStoreSchedule = async (): Promise<ProgramItem[]> => {
       ),
       fetch(
         `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/REFERALS?key=${API_KEY}`
+      ),
+      fetch(
+        `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/CREW?key=${API_KEY}`
       )
     ]);
 
-    const [scheduleData, descriptionsData, referralsData] = await Promise.all([
+    const [scheduleData, descriptionsData, referralsData, crewData] = await Promise.all([
       scheduleResponse.json(),
       descriptionsResponse.json(),
-      referralsResponse.json()
+      referralsResponse.json(),
+      crewResponse.json()
     ]);
 
     // Parse Referrals
@@ -74,6 +86,22 @@ export const fetchAndStoreSchedule = async (): Promise<ProgramItem[]> => {
         .filter((item: ReferralItem) => item.url.startsWith('http'));
 
       localStorage.setItem('program_referrals', JSON.stringify(referrals));
+    }
+
+    // Parse Crew
+    if (crewData.values && crewData.values.length > 0) {
+      // First row is header
+      const crew: CrewMember[] = crewData.values.slice(1)
+        .map((row: string[], index: number) => ({
+          id: `crew-${index}`,
+          name: row[0] || 'Unknown',
+          description: row[1] || '',
+          image: row[2] || '',
+          channel: row[3] || ''
+        }))
+        .filter((item: CrewMember) => item.name);
+
+      localStorage.setItem('program_crew', JSON.stringify(crew));
     }
 
     // Parse descriptions/channels
@@ -147,6 +175,16 @@ export const getStoredChannels = (): ChannelItem[] => {
     return data ? JSON.parse(data) : [];
   } catch (e) {
     console.warn('Failed to parse channels from local storage', e);
+    return [];
+  }
+};
+
+export const getStoredCrew = (): CrewMember[] => {
+  try {
+    const data = localStorage.getItem('program_crew');
+    return data ? JSON.parse(data) : [];
+  } catch (e) {
+    console.warn('Failed to parse crew from local storage', e);
     return [];
   }
 };
