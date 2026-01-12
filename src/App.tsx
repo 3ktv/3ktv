@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import ProgramDetails from './pages/ProgramDetails';
 import AllSchedule from './pages/AllSchedule';
 import StreamingCrew from './pages/StreamingCrew';
+import Webmail from './pages/Webmail';
 import { fetchAndStoreSchedule } from './services/api';
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
           <Route path="/schedule" element={<AllSchedule />} />
           <Route path="/crew" element={<StreamingCrew />} />
           <Route path="/program/:id" element={<ProgramDetails />} />
+          <Route path="/webmail" element={<Webmail />} />
         </Routes>
         <Footer />
       </Layout>
