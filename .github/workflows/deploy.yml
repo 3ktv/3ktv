@@ -31,7 +31,7 @@ jobs:
         with:
           webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
           title: 'GitHub Action'
-          description: 'A new commit has been pushed.'
+          description: 'Nowa wersja portalu została opublikowana na https://3ktv.pl'
           avatar_url: 'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'
           username: 'GitHub'
           color: '#24292e'
