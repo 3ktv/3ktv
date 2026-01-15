@@ -10,6 +10,8 @@ import StreamingCrew from './pages/StreamingCrew';
 import Webmail from './pages/Webmail';
 import { fetchAndStoreSchedule } from './services/api';
 
+import PikabooLucek from './components/PikabooLucek';
+
 function App() {
   useEffect(() => {
     fetchAndStoreSchedule();
@@ -27,6 +29,7 @@ function App() {
           <Route path="/webmail" element={<Webmail />} />
         </Routes>
         <Footer />
+        <PikabooLucek />
       </Layout>
     </Router>
   );
