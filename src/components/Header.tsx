@@ -22,8 +22,16 @@ const Header: React.FC = () => {
   return (
     <header>
       <div className="ticker" role="presentation">
-        <span>{tickerText}</span>
-        <span>{tickerText}</span>
+        <span>
+          <a href="https://kick.com/kkktv" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none' }}>
+            {tickerText}
+          </a>
+        </span>
+        <span>
+          <a href="https://kick.com/kkktv" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none' }}>
+            {tickerText}
+          </a>
+        </span>
       </div>
     </header>
   );
