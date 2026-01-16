@@ -12,8 +12,8 @@ const Schedule: React.FC = () => {
     const getFilteredSchedule = () => {
       const allItems = getStoredSchedule();
       const now = new Date();
-      // Allow items that started up to 2 hours ago (current)
-      const threshold = new Date(now.getTime() - 2 * 60 * 60 * 1000);
+      // Allow items that started up to 4 hours ago (current)
+      const threshold = new Date(now.getTime() - 4 * 60 * 60 * 1000);
 
       return allItems
         .filter(item => {
